@@ -1,0 +1,36 @@
+---
+AWSTemplateFormatVersion: "2010-09-09"
+Description: A sample template to create IAM components 
+Resources:
+  ContractorsGroup:
+    Type: "AWS::IAM::Group"
+    Properties:
+      GroupName: Contractors
+
+  DemoUser:
+    Type: "AWS::IAM::User"
+    Properties:
+      UserName: DemoUser
+
+  DemoUserGroupMembership:
+    Type: "AWS::IAM::UserToGroupAddition"
+    Properties:
+      GroupName: Contractors
+      Users:
+        - Ref: DemoUser
+
+  ContractorsPolicy:
+    Type: "AWS::IAM::Policy"
+    Properties:
+      PolicyName: ContractorsPolicy
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: "Allow"
+            Action:
+              - "ec2:*"
+              - "s3:*"
+              - "eks:*"
+            Resource: "*"
+      Groups:
+        - Ref: ContractorsGroup
